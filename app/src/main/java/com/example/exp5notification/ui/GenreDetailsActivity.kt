@@ -22,34 +22,66 @@ class GenreDetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_genre_details)
 
         val genreName = intent.getStringExtra("GENRE_NAME") ?: "Fiction"
-        findViewById<TextView>(R.id.tv_genre_title).text = genreName
+        val userName  = intent.getStringExtra("USER_NAME")  ?: "Sandy"
+        val userUsn   = intent.getStringExtra("USER_USN")   ?: ""
 
+        findViewById<TextView>(R.id.tv_genre_title).text = genreName
         findViewById<View>(R.id.btn_back).setOnClickListener { finish() }
 
+        val openSettings = {
+            val intent = Intent(this, UserSettingsActivity::class.java).apply {
+                putExtra("USER_NAME", userName)
+                putExtra("USER_USN",  userUsn)
+            }
+            startActivity(intent)
+        }
+
+        findViewById<View>(R.id.btn_genre_logout)?.setOnClickListener { openSettings() }
+
         applyGenreTheme(genreName)
-        setupBookList(genreName)
+        setupBookList(genreName, userName, userUsn)
     }
 
     private fun applyGenreTheme(genre: String) {
-        val root = findViewById<View>(R.id.genre_root)
+        findViewById<MagicBackgroundView>(R.id.magic_bg)?.setGenreTheme(genre)
         val gradient = findViewById<View>(R.id.genre_gradient)
         
-        when (genre) {
-            "Fantasy" -> gradient.setBackgroundResource(R.drawable.genre_gradient_fantasy)
-            "Science Fiction" -> gradient.setBackgroundResource(R.drawable.genre_gradient_scifi)
-            "Mystery & Thriller" -> gradient.setBackgroundResource(R.drawable.genre_gradient_mystery)
-            else -> gradient.setBackgroundResource(R.drawable.genre_gradient_default)
+        when {
+            genre.contains("Fiction", ignoreCase = true) && !genre.contains("Science", ignoreCase = true) ->
+                gradient.setBackgroundResource(R.drawable.genre_gradient_fiction)
+            genre.contains("Fantasy", ignoreCase = true) ->
+                gradient.setBackgroundResource(R.drawable.genre_gradient_fantasy)
+            genre.contains("Mystery", ignoreCase = true) ->
+                gradient.setBackgroundResource(R.drawable.genre_gradient_mystery)
+            genre.contains("Sci-Fi", ignoreCase = true) || genre.contains("Science", ignoreCase = true) ->
+                gradient.setBackgroundResource(R.drawable.genre_gradient_scifi)
+            genre.contains("Romance", ignoreCase = true) ->
+                gradient.setBackgroundResource(R.drawable.genre_gradient_romance)
+            genre.contains("Self-Help", ignoreCase = true) || genre.contains("Self", ignoreCase = true) ->
+                gradient.setBackgroundResource(R.drawable.genre_gradient_selfhelp)
+            genre.contains("Technology", ignoreCase = true) || genre.contains("Tech", ignoreCase = true) ->
+                gradient.setBackgroundResource(R.drawable.genre_gradient_tech)
+            genre.contains("History", ignoreCase = true) ->
+                gradient.setBackgroundResource(R.drawable.genre_gradient_history)
+            genre.contains("Classics", ignoreCase = true) ->
+                gradient.setBackgroundResource(R.drawable.genre_gradient_classics)
+            genre.contains("Academic", ignoreCase = true) ->
+                gradient.setBackgroundResource(R.drawable.genre_gradient_academic)
+            else ->
+                gradient.setBackgroundResource(R.drawable.genre_gradient_default)
         }
     }
 
-    private fun setupBookList(genre: String) {
+    private fun setupBookList(genre: String, userName: String, userUsn: String) {
         val rvBooks = findViewById<RecyclerView>(R.id.rv_books)
         rvBooks.layoutManager = LinearLayoutManager(this)
-        
+
         val books = BookRepository.getBooksByGenre(genre)
         rvBooks.adapter = BookAdapter(books) { book ->
             val intent = Intent(this, BookDetailsActivity::class.java).apply {
                 putExtra("BOOK_DATA", book)
+                putExtra("USER_NAME", userName)
+                putExtra("USER_USN",  userUsn)
             }
             startActivity(intent)
         }

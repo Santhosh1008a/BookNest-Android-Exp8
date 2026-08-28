@@ -83,7 +83,18 @@ object BookRepository {
     }
 
     fun getAllBooks() = books
-    fun getBooksByGenre(genre: String) = books.filter { it.genre == genre }
+    fun getBooksByGenre(genre: String): List<Book> {
+        val lower = genre.lowercase()
+        return books.filter { book ->
+            val bookGenre = book.genre.lowercase()
+            bookGenre == lower ||
+            bookGenre.contains(lower) || lower.contains(bookGenre) ||
+            (lower.contains("sci") && bookGenre.contains("science")) ||
+            (lower.contains("mystery") && bookGenre.contains("mystery")) ||
+            (lower.contains("tech") && bookGenre.contains("tech")) ||
+            (lower.contains("self") && bookGenre.contains("self"))
+        }
+    }
     fun getContinueReadingBooks() = books.filter { it.progress > 0 }.sortedByDescending { it.progress }
     fun searchBooks(query: String) = books.filter { 
         it.title.contains(query, true) || it.author.contains(query, true) || it.genre.contains(query, true)

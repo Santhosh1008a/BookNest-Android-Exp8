@@ -34,6 +34,10 @@
             android:name=".ui.BookDetailsActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.UserSettingsActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

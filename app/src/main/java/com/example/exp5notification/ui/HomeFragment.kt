@@ -43,22 +43,35 @@ class HomeFragment : Fragment() {
         
         notificationHelper.showContinueReadingNotification("The Hobbit", "Chapter 7")
 
-        view.findViewById<View>(R.id.btn_logout).setOnClickListener {
-            val intent = Intent(requireContext(), LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val openSettings = {
+            val name = activity?.intent?.getStringExtra("USER_NAME") ?: "Sandy"
+            val usn  = activity?.intent?.getStringExtra("USER_USN")  ?: ""
+            val intent = Intent(requireContext(), UserSettingsActivity::class.java).apply {
+                putExtra("USER_NAME", name)
+                putExtra("USER_USN",  usn)
+            }
             startActivity(intent)
         }
+
+        view.findViewById<View>(R.id.btn_bottom_settings)?.setOnClickListener { openSettings() }
+        view.findViewById<View>(R.id.btn_logout)?.setOnClickListener { openSettings() }
+
         view.findViewById<ImageView>(R.id.iv_home_bg).load("https://images.unsplash.com/photo-1549675584-91f19337af3d?q=80&w=1000&auto=format&fit=crop")
     }
 
     private fun setupContinueReading(view: View) {
         val rvContinue = view.findViewById<RecyclerView>(R.id.rv_continue_reading)
         rvContinue.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        
+
         val books = BookRepository.getContinueReadingBooks()
         rvContinue.adapter = ContinueReadingAdapter(books) { book ->
+            // Pass USER_NAME and USER_USN so BookDetailsActivity can display them
+            val userName = activity?.intent?.getStringExtra("USER_NAME") ?: "Sandy"
+            val userUsn  = activity?.intent?.getStringExtra("USER_USN")  ?: ""
             val intent = Intent(requireContext(), BookDetailsActivity::class.java).apply {
                 putExtra("BOOK_DATA", book)
+                putExtra("USER_NAME", userName)
+                putExtra("USER_USN",  userUsn)
             }
             startActivity(intent)
         }
@@ -69,21 +82,25 @@ class HomeFragment : Fragment() {
         rvGenres.layoutManager = GridLayoutManager(requireContext(), 2)
         
         val genres = listOf(
-            Genre("Fiction", R.drawable.ic_book, R.color.sky_blue),
-            Genre("Fantasy", R.drawable.ic_book, R.color.fantasy_purple),
-            Genre("Mystery", R.drawable.ic_book, R.color.mystery_amber),
-            Genre("Sci-Fi", R.drawable.ic_book, R.color.scifi_cyan),
-            Genre("Romance", R.drawable.ic_book, R.color.romance_coral),
-            Genre("Self-Help", R.drawable.ic_book, R.color.soft_cyan),
-            Genre("Technology", R.drawable.ic_book, R.color.scifi_cyan),
-            Genre("History", R.drawable.ic_book, R.color.history_gold),
-            Genre("Classics", R.drawable.ic_book, R.color.history_gold),
-            Genre("Academic", R.drawable.ic_book, R.color.sky_blue)
+            Genre("Fiction", R.drawable.ic_genre_fiction, R.color.sky_blue),
+            Genre("Fantasy", R.drawable.ic_genre_fantasy, R.color.fantasy_purple),
+            Genre("Mystery", R.drawable.ic_genre_mystery, R.color.mystery_amber),
+            Genre("Sci-Fi", R.drawable.ic_genre_scifi, R.color.scifi_cyan),
+            Genre("Romance", R.drawable.ic_genre_romance, R.color.romance_coral),
+            Genre("Self-Help", R.drawable.ic_genre_selfhelp, R.color.soft_cyan),
+            Genre("Technology", R.drawable.ic_genre_tech, R.color.scifi_cyan),
+            Genre("History", R.drawable.ic_genre_history, R.color.history_gold),
+            Genre("Classics", R.drawable.ic_genre_classics, R.color.history_gold),
+            Genre("Academic", R.drawable.ic_genre_academic, R.color.sky_blue)
         )
         
         rvGenres.adapter = GenreAdapter(genres) { genre ->
+            val userName = activity?.intent?.getStringExtra("USER_NAME") ?: "Sandy"
+            val userUsn  = activity?.intent?.getStringExtra("USER_USN")  ?: ""
             val intent = Intent(requireContext(), GenreDetailsActivity::class.java).apply {
                 putExtra("GENRE_NAME", genre.name)
+                putExtra("USER_NAME", userName)
+                putExtra("USER_USN",  userUsn)
             }
             startActivity(intent)
         }
@@ -140,6 +157,7 @@ class HomeFragment : Fragment() {
             val genre = genres[position]
             holder.tvName.text = genre.name
             holder.ivIcon.setImageResource(genre.iconRes)
+            holder.ivIcon.setColorFilter(androidx.core.content.ContextCompat.getColor(holder.itemView.context, genre.colorRes))
             holder.card.setOnClickListener { onClick(genre) }
         }
 

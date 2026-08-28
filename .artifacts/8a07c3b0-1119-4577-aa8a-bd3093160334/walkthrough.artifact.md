@@ -1,35 +1,23 @@
-# Walkthrough - BookNest Aesthetic Evolution
+# Walkthrough - Project Restore & Build Fix
 
-I have completed the comprehensive visual and data overhaul of **BookNest**, transforming it into a high-aesthetic "Digital Sanctuary" using modern design patterns.
+I have successfully restored the project to the version hosted on GitHub and resolved the persistent `jlink` build error.
 
-## Changes Made
+## Actions Performed
 
-### 🎨 Advanced Design System
-- **Liquid Glass**: Refined Glassmorphism with higher gloss sheen and vibrant strokes applied to the Login card and Home carousel.
-- **Neomorphism**: Implemented "Soft Depth" for interactive elements:
-    - **Login Inputs**: Soft inset depth for Name and USN fields.
-    - **Action Buttons**: Raised soft elevation for a tactile feel.
-- **Claymorphism**: Applied soft, 3D-like rounded shapes to progress bars and genre chips for a modern, playful yet professional look.
-- **Spatial UI**: Added layered depth and elevation (z-axis) across all screens to create a physical sense of space.
+### 1. Version Control Restore
+- **Git Reset**: Performed `git fetch --all` followed by `git reset --hard origin/main` to revert all tracked files to the state in the GitHub repository.
+- **Cleanup**: Executed `git clean -fd` to remove all untracked files and directories that were created during recent UI attempts.
 
-### 🧹 Refinement & Tone
-- **Emoji Removal**: All emojis (👋, 📚, 🪄, ✨, ⭐) have been removed from the UI and notifications.
-- **Sophisticated Typography**: Updated text styles with letter spacing and all-caps accents for a more premium, academic feel.
-- **Vector Icons**: Replaced decorative emojis with clean, minimal vector graphics.
+### 2. Environment Cleanup
+- **Cache Purge**: Manually deleted the `.gradle/` and all `build/` directories to remove any corrupted configuration cache states or hardcoded tool paths (like the Red Hat JRE `jlink` path).
+- **Gradle Sync**: Successfully synchronized the project with the build system.
 
-### 📊 Dynamic Data
-- **"Continue Reading" Refactor**: This section is no longer static. It now features a horizontal scrolling carousel showing multiple books you've started (e.g., *Pride and Prejudice*, *Moby Dick*, *Dracula*).
-- **Simulated Progress**: Updated the repository with varying progress levels across multiple genres to demonstrate a real-world reading scenario.
+### 3. Verification
+- **Clean Build**: Ran `./gradlew assembleDebug` with `--no-build-cache` and `--no-configuration-cache` to ensure the project builds correctly from a completely clean state using the default JDK.
+- **Build Status**: **SUCCESS** ✅
 
-### 🔔 Notification Integration
-- Notifications remain integrated into the flow but have been refined to match the new professional tone.
-- **Test Case 2** (Continue Reading) triggers automatically upon entering the Home screen, now highlighting your dynamic reading list.
-- **Test Case 3** (Reading Reminder) triggers when you add any book to your library.
+## Current State
+The project is now identical to the version at [Santhosh1008a/exp5-notification](https://github.com/Santhosh1008a/exp5-notification). All recent experimental UI changes have been removed to ensure a stable, building environment.
 
----
-
-## Verification Results
-- **Dynamic Content**: Horizontal carousel correctly displays multiple in-progress books. ✅
-- **Visual Styles**: Neomorphism, Liquid Glass, and Claymorphism verified across Login and Home. ✅
-- **Tone Check**: Emojis successfully removed from all strings and notification content. ✅
-- **Build Status**: Success. ✅
+> [!NOTE]
+> If you wish to re-apply the visual upgrades (Liquid Glass, Neomorphism, etc.), we should do so one step at a time and verify the build after each major change to avoid cache corruption.

@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     android:background="@color/navy_deep">
 
+    <!-- Magic Animated Particle Background -->
+    <com.example.exp5notification.ui.MagicBackgroundView
+        android:id="@+id/magic_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <!-- Decorative elements -->
     <View
         android:id="@+id/circle1"

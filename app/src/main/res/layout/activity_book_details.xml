@@ -1,104 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/navy_deep">
 
+    <!-- Magic Animated Particle Background -->
+    <com.example.exp5notification.ui.MagicBackgroundView
+        android:id="@+id/magic_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_book_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="40dp">
+        android:paddingBottom="48dp">
 
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- HERO: Book Cover (ImageView) + Back + Settings  -->
+        <!-- ═══════════════════════════════════════════════ -->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="400dp">
+            android:layout_height="360dp">
 
+            <!-- BASIC VIEW 2: ImageView — Book Cover -->
             <ImageView
                 android:id="@+id/iv_detail_cover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:alpha="0"
+                tools:src="@drawable/ic_book" />
 
+            <!-- Gradient overlay for readability -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/gradient_overlay" />
 
-            <ImageButton
-                android:id="@+id/btn_detail_back"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_margin="16dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_back"
-                app:tint="@color/white" />
-
-            <ImageButton
-                android:id="@+id/btn_detail_fav"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="end"
-                android:layout_margin="16dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_heart"
-                app:tint="@color/white" />
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-60dp"
-            android:background="@drawable/bg_detail_sheet"
-            android:elevation="16dp"
-            android:orientation="vertical"
-            android:padding="24dp">
-
-            <TextView
-                android:id="@+id/tv_detail_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:text="Book Title"
-                android:textColor="@color/white"
-                android:textSize="26sp" />
-
-            <TextView
-                android:id="@+id/tv_detail_author"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="By Author Name"
-                android:textColor="@color/white_60"
-                android:textSize="16sp" />
-
+            <!-- Navigation Bar -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_gravity="top"
+                android:orientation="horizontal"
+                android:paddingHorizontal="8dp"
+                android:paddingTop="8dp">
+
+                <ImageButton
+                    android:id="@+id/btn_detail_back"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_back"
+                    app:tint="@color/white" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <!-- Profile / Logout icon button -->
+                <ImageButton
+                    android:id="@+id/btn_detail_logout"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/bg_glass_card"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_user"
+                    app:tint="@color/soft_cyan" />
+
+                <ImageButton
+                    android:id="@+id/btn_detail_fav"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_glass_card"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_heart"
+                    app:tint="@color/white" />
+            </LinearLayout>
+
+            <!-- BASIC VIEW 1 (a): TextViews on hero — Title & Author overlaid -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:id="@+id/tv_detail_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Book Title"
+                    android:textColor="@color/white"
+                    android:textSize="28sp"
+                    android:shadowColor="#80000000"
+                    android:shadowDx="0"
+                    android:shadowDy="2"
+                    android:shadowRadius="8" />
+
+                <TextView
+                    android:id="@+id/tv_detail_author"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="By Author"
+                    android:textColor="@color/white_60"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- USER PROFILE CARD                          -->
+        <!-- ═══════════════════════════════════════════ -->
+        <LinearLayout
+            android:id="@+id/card_user_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_section_card"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:src="@drawable/ic_user"
+                app:tint="@color/soft_cyan" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- BASIC VIEW 1 (b): TextViews for User Name -->
+                <TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Sandy"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <!-- BASIC VIEW 1 (c): TextView for USN -->
+                <TextView
+                    android:id="@+id/tv_user_usn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="USN: 25MCAR0133"
+                    android:textColor="@color/white_60"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- DETAILS CARD: Genre, Rating, Year, Desc    -->
+        <!-- ═══════════════════════════════════════════ -->
+        <LinearLayout
+            android:id="@+id/card_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:alpha="0"
+            android:background="@drawable/bg_section_card"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Genre / Rating / Year chips row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+                <!-- BASIC VIEW 1 (d): Genre chip TextView -->
                 <TextView
                     android:id="@+id/tv_detail_genre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_chip"
                     android:paddingHorizontal="12dp"
-                    android:paddingVertical="4dp"
+                    android:paddingVertical="5dp"
                     android:text="Fantasy"
                     android:textColor="@color/soft_cyan"
                     android:textSize="12sp" />
 
+                <!-- BASIC VIEW 1 (e): Rating chip TextView -->
                 <TextView
                     android:id="@+id/tv_detail_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="8dp"
                     android:background="@drawable/bg_chip"
                     android:paddingHorizontal="12dp"
-                    android:paddingVertical="4dp"
+                    android:paddingVertical="5dp"
                     android:text="⭐ 4.8"
                     android:textColor="@color/mystery_amber"
                     android:textSize="12sp" />
@@ -107,66 +218,385 @@
                     android:id="@+id/tv_detail_year"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="8dp"
                     android:background="@drawable/bg_chip"
                     android:paddingHorizontal="12dp"
-                    android:paddingVertical="4dp"
+                    android:paddingVertical="5dp"
                     android:text="1937"
                     android:textColor="@color/white_60"
                     android:textSize="12sp" />
             </LinearLayout>
 
+            <!-- About label -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="About the Book"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="16sp"
+                android:letterSpacing="0.02" />
 
+            <!-- BASIC VIEW 1 (f): Description TextView -->
             <TextView
                 android:id="@+id/tv_detail_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:lineSpacingExtra="4dp"
                 android:text="Book description goes here..."
                 android:textColor="@color/white_60"
                 android:textSize="14sp" />
+        </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="32dp"
-                android:background="@color/white_10" />
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- READING PROGRESS (ProgressBar)              -->
+        <!-- ═══════════════════════════════════════════ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_section_card"
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btn_read_free"
-                    style="@style/GlassButton"
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Read Free" />
+                    android:fontFamily="sans-serif-medium"
+                    android:text="📖  Reading Progress"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
 
-                <Button
-                    android:id="@+id/btn_add_library"
-                    style="@style/GlassButton"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/navy_light"
-                    android:text="Add to Library" />
+                <!-- BASIC VIEW 1 (g): Reading progress % TextView -->
+                <TextView
+                    android:id="@+id/tv_progress_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="0%"
+                    android:textColor="@color/soft_cyan"
+                    android:textSize="15sp" />
             </LinearLayout>
 
+            <!-- BASIC VIEW 9: ProgressBar (horizontal determinate) -->
+            <ProgressBar
+                android:id="@+id/pb_reading"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:layout_marginTop="12dp"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/bg_progress_track"
+                android:minHeight="14dp"
+                android:maxHeight="14dp" />
         </LinearLayout>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- YOUR RATING (RatingBar)                     -->
+        <!-- ═══════════════════════════════════════════ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_section_card"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="⭐  Your Rating"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <!-- BASIC VIEW 8: RatingBar -->
+            <RatingBar
+                android:id="@+id/ratingbar_book"
+                style="?android:attr/ratingBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:numStars="5"
+                android:rating="0"
+                android:stepSize="1.0"
+                android:progressTint="@color/mystery_amber"
+                android:secondaryProgressTint="@color/mystery_amber" />
+
+            <!-- BASIC VIEW 1 (h): Rating result label TextView -->
+            <TextView
+                android:id="@+id/tv_rating_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Tap stars to rate"
+                android:textColor="@color/white_60"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- READING STATUS (RadioGroup / RadioButton)   -->
+        <!-- ═══════════════════════════════════════════ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_section_card"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="📚  Reading Status"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <!-- BASIC VIEW 5: RadioGroup with RadioButtons -->
+            <RadioGroup
+                android:id="@+id/rg_reading_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rb_want_to_read"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Want to Read"
+                    android:textColor="@color/white_60"
+                    android:buttonTint="@color/sky_blue" />
+
+                <RadioButton
+                    android:id="@+id/rb_currently_reading"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:checked="true"
+                    android:text="Currently Reading"
+                    android:textColor="@color/white_60"
+                    android:buttonTint="@color/sky_blue" />
+
+                <RadioButton
+                    android:id="@+id/rb_completed"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Completed"
+                    android:textColor="@color/white_60"
+                    android:buttonTint="@color/sky_blue" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- GENRE SELECTOR (Spinner)                    -->
+        <!-- ═══════════════════════════════════════════ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_section_card"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="🎭  Select Genre"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <!-- BASIC VIEW 7: Spinner -->
+            <Spinner
+                android:id="@+id/spinner_genre"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_neomorph_input"
+                android:paddingHorizontal="16dp"
+                android:popupBackground="@color/navy_medium" />
+        </LinearLayout>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- FAVORITES + REMINDER (CheckBox + Switch)    -->
+        <!-- ═══════════════════════════════════════════ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_section_card"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- BASIC VIEW 4: CheckBox — Add to Favorites -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cb_favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/romance_coral"
+                    android:text="Add to Favorites"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="12dp"
+                android:background="@color/white_10" />
+
+            <!-- BASIC VIEW 6: Switch — Reading Reminder -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="🔔  Reading Reminder"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <Switch
+                    android:id="@+id/switch_reminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:thumbTint="@color/soft_cyan"
+                    android:trackTint="@color/navy_light"
+                    android:showText="false" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- PERSONAL NOTE (EditText)                    -->
+        <!-- ═══════════════════════════════════════════ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_section_card"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="📝  Personal Note"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <!-- BASIC VIEW 3: EditText — Personal note -->
+            <EditText
+                android:id="@+id/et_personal_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_neomorph_input"
+                android:gravity="top"
+                android:hint="Add a personal note..."
+                android:inputType="textMultiLine|textCapSentences"
+                android:minLines="3"
+                android:maxLines="6"
+                android:padding="16dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white_60"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- ACTION BUTTONS                              -->
+        <!-- ═══════════════════════════════════════════ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <!-- BASIC VIEW 10 (a): Button — Read Book -->
+            <Button
+                android:id="@+id/btn_read_book"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_neomorph_button"
+                android:fontFamily="sans-serif-medium"
+                android:text="Read Book"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <!-- BASIC VIEW 10 (b): Button — Save Changes -->
+            <Button
+                android:id="@+id/btn_save_changes"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_glass_button"
+                android:fontFamily="sans-serif-medium"
+                android:text="Save Changes"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <!-- Read Free / Add Library (Exp 5 preserved) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_read_free"
+                style="@style/GlassButton"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:text="Read Online" />
+
+            <Button
+                android:id="@+id/btn_add_library"
+                style="@style/GlassButton"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/navy_light"
+                android:text="Add to Library" />
+        </LinearLayout>
+
     </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>
