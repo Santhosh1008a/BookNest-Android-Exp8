@@ -2,7 +2,7 @@
 
 ### BookNest — Android Book Discovery Application
 
-This project is a continuation of the BookNest application, developed as part of the MCA Android Development laboratory. While Experiment 5 focused on Android Notifications, **Experiment 6** demonstrates the integration and handling of **Basic Android Views** within a realistic application scenario.
+This project is a continuation of the BookNest application, developed as part of the MCA Android Development laboratory. While Experiment 5 focused on Android Notifications, **Experiment 6** demonstrates the use of basic Android Views to build interactive screens for the BookNest app.
 
 ---
 
@@ -21,7 +21,7 @@ This project is a continuation of the BookNest application, developed as part of
 ---
 
 ## 2. Aim
-To develop an Android application using basic Android Views such as **TextView, EditText, ImageView, Button, CheckBox, RadioButton, Switch, Spinner, RatingBar, and ProgressBar**, and demonstrate their usage through an interactive BookNest application.
+To develop an Android application using basic Android Views such as **TextView, EditText, ImageView, Button, CheckBox, RadioButton, Switch, Spinner, RatingBar, and ProgressBar**, and demonstrate their usage in a simple book discovery app.
 
 ---
 
@@ -39,7 +39,7 @@ To develop an Android application using basic Android Views such as **TextView, 
 BookNest is a digital sanctuary for book discovery. In this experiment, the basic views are integrated into the core user journey:
 1.  **Login**: Users enter their credentials using **EditText**.
 2.  **Discovery**: Browse through categories and select books.
-3.  **Book Details**: The primary hub for Experiment 6. Users view metadata via **TextViews** and **ImageViews**, rate books using a **RatingBar**, update their reading status with **RadioButtons**, and toggle reminders with a **Switch**.
+3.  **Book Details**: The primary hub for Experiment 6. Users view metadata via **TextViews** and **ImageViews**, rate books using a **RatingBar**, update their reading status with **RadioButtons** and **ProgressBar**, and toggle preferences with **Switches** and **CheckBox**es.
 4.  **Interaction**: Users can save their personal notes in an **EditText** and perform actions like "Read Book" or "Save Changes" via **Buttons**.
 
 ---
@@ -82,7 +82,7 @@ The application maintains user context by passing data between Activities:
 ---
 
 ## 8. Experiment 5 Continuation
-Experiment 5 notification functionality has been fully retained. Successful login triggers a **Login Notification**, and interacting with the "Add to Library" button triggers a **Reading Reminder Notification**, demonstrating the integration of system services with basic UI views.
+Experiment 5 notification functionality has been fully retained. Successful login triggers a **Login Notification**, and interacting with the "Add to Library" button triggers a **Reading Reminder Notification**.
 
 ---
 
@@ -133,3 +133,72 @@ BookNest/
 
 ---
 **Developed for MCA Android Development Lab**
+
+---
+
+## 11. Screenshots
+Below are screenshots included in this repository demonstrating the use of basic Android Views in the BookNest application. Each screenshot highlights one or more views and includes a short description of what it demonstrates.
+
+1. Login Screen - EditText & Button
+
+![Login Screen](./Screenshot 2026-08-24 203553.png)
+
+This screenshot shows the Login screen where users enter their Name and USN using EditText fields and submit via a Login Button. TextViews label each input field.
+
+2. Home / Genre Selection - Spinner, TextView, ImageView
+
+![Home / Genre Selection](./Screenshot 2026-08-24 203604.png)
+
+This image demonstrates the Home/Genre selection view with a Spinner (dropdown) for genres, TextViews for headings, and ImageViews showing book thumbnails or category art.
+
+3. Book Details - TextView, ImageView, RatingBar, ProgressBar
+
+![Book Details](./Screenshot 2026-08-24 203622.png)
+
+The Book Details screen uses TextViews for the title/author/description, an ImageView for the book cover, a RatingBar for user ratings, and a ProgressBar to visualize reading progress.
+
+4. Interaction Controls - CheckBox, RadioButton, Switch
+
+![Interaction Controls](./Screenshot 2026-08-24 203651.png)
+
+This screenshot focuses on interactive controls in the Book Details screen: a CheckBox to "Add to Favorites", RadioButtons grouped for reading status (e.g., "Not Started", "Reading", "Finished"), and a Switch to toggle specific settings or reminders.
+
+5. User Settings - Switches & TextViews
+
+![User Settings](./ss.jpg)
+
+The User Settings screen demonstrates multiple Switch controls (e.g., Notifications, Dark Mode) alongside descriptive TextViews.
+
+6. Notes & Actions - EditText & Buttons
+
+![Notes & Actions](./ss2.jpg)
+
+Here the user can enter personal notes via an EditText and perform actions such as Save or Read using Buttons placed on the Book Details screen.
+
+7. Spinner Interaction & Selection
+
+![Spinner Interaction](./ss3.jpg)
+
+This screenshot highlights Spinner interaction and the selected genre displayed via TextViews. The Spinner's selection listener updates UI elements based on the chosen genre.
+
+8. RatingBar Feedback
+
+![RatingBar Feedback](./ss4.jpg)
+
+This view shows the RatingBar in use; selecting stars updates a descriptive label (e.g., "Very Good") via the `setOnRatingBarChangeListener`.
+
+9. Reading Progress - ProgressBar Animation
+
+![Reading Progress](./ss5.jpg)
+
+A focused view of the ProgressBar demonstrating reading progress visualization; this can be updated programmatically to reflect pages or percentage completed.
+
+10. Custom View / Decorative Background
+
+![Custom View / Background](./ss6.jpg)
+
+This screenshot highlights a custom animated background or decorative ImageView (referred to in the project as `MagicBackgroundView`) used to enhance visual appeal while standard Views provide the core functionality.
+
+---
+
+If you want any changes to these descriptions or specific captions for each image (for example, calling out exact layout XML files or line numbers), I can update the README accordingly.
