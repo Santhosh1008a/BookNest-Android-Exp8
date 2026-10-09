@@ -1,10 +1,9 @@
-# Task List - Experiment 6 Submission Prep
+# Task List - Experiment 8: Menus and WebView
 
-## Documentation
-- [ ] Create `README.md` with Experiment 6 details and actual implementation documentation.
-- [ ] Document all 10 Basic Android Views used in the project.
-- [ ] Detail the Kotlin event handling logic.
-- [ ] Create the project folder structure tree.
-
-## Submission
-- [ ] Push the project to GitHub: `https://github.com/Santhosh1008a/exp6-views`.
+- [x] Create Options Menu resource (`res/menu/main_menu.xml`)
+- [x] Create WebView layout (`res/layout/activity_webview.xml`) and `WebViewActivity.kt`
+- [x] Register `WebViewActivity` in `AndroidManifest.xml`
+- [x] Update `BookDetailsActivity.kt` to launch `WebViewActivity` on "Read Online" click
+- [x] Implement Options Menu handling in Activities (`MainActivity`, `BookDetailsActivity`, `GenreDetailsActivity`, `UserSettingsActivity`) and add lifecycle logging (`Log.d`)
+- [x] Build and test the application using Gradle build (`app:assembleDebug`)
+- [x] Create walkthrough artifact (`walkthrough.artifact.md`)

@@ -2,23 +2,33 @@ package com.example.exp5notification.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.exp5notification.MainActivity
 import com.example.exp5notification.R
 import com.example.exp5notification.data.Book
 import com.example.exp5notification.data.BookRepository
 
 class GenreDetailsActivity : AppCompatActivity() {
 
+    companion object {
+        private const val TAG = "GenreDetailsActivity"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate called")
         setContentView(R.layout.activity_genre_details)
 
         val genreName = intent.getStringExtra("GENRE_NAME") ?: "Fiction"
@@ -87,6 +97,46 @@ class GenreDetailsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val userName = intent.getStringExtra("USER_NAME") ?: "Sandy"
+        val userUsn  = intent.getStringExtra("USER_USN")  ?: ""
+        return when (item.itemId) {
+            R.id.action_home -> {
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putExtra("USER_NAME", userName)
+                    putExtra("USER_USN", userUsn)
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                }
+                startActivity(intent)
+                true
+            }
+            R.id.action_browse -> {
+                finish()
+                true
+            }
+            R.id.action_favorites -> {
+                val favs = BookRepository.getAllBooks().filter { it.isFavorite }
+                val favTitles = if (favs.isNotEmpty()) favs.joinToString { it.title } else "No favorites added yet"
+                Toast.makeText(this, "Favorites: $favTitles", Toast.LENGTH_LONG).show()
+                true
+            }
+            R.id.action_settings -> {
+                val intent = Intent(this, UserSettingsActivity::class.java).apply {
+                    putExtra("USER_NAME", userName)
+                    putExtra("USER_USN", userUsn)
+                }
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     inner class BookAdapter(
         private val books: List<Book>,
         private val onClick: (Book) -> Unit
@@ -117,4 +167,10 @@ class GenreDetailsActivity : AppCompatActivity() {
 
         override fun getItemCount() = books.size
     }
+
+    override fun onStart() { super.onStart(); Log.d(TAG, "onStart called") }
+    override fun onResume() { super.onResume(); Log.d(TAG, "onResume called") }
+    override fun onPause() { super.onPause(); Log.d(TAG, "onPause called") }
+    override fun onStop() { super.onStop(); Log.d(TAG, "onStop called") }
+    override fun onDestroy() { super.onDestroy(); Log.d(TAG, "onDestroy called") }
 }

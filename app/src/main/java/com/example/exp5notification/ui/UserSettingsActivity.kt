@@ -2,27 +2,28 @@ package com.example.exp5notification.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.exp5notification.MainActivity
 import com.example.exp5notification.R
 
 /**
- * UserSettingsActivity — Experiment 6: Basic Android Views
+ * UserSettingsActivity — Experiment 6: Basic Android Views & Experiment 8: Menus
  *
- * Demonstrates:
- *  - TextView  (name, USN display)
- *  - Switch    (Notifications, Dark Mode, Reading Reminders)
- *  - Button    (Logout with proper Activity back-stack clearing)
- *
- * User info is passed via Intent extras from BookDetailsActivity.
- * Logout navigates back to LoginActivity with FLAG_ACTIVITY_CLEAR_TASK
- * so the back button cannot return to the app.
+ * Demonstrates TextViews, Switches, Logout, Options Menu, and lifecycle logging.
  */
 class UserSettingsActivity : AppCompatActivity() {
+
+    companion object {
+        private const val TAG = "UserSettingsActivity"
+    }
 
     private lateinit var tvName: TextView
     private lateinit var tvUsn: TextView
@@ -34,6 +35,7 @@ class UserSettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate called")
         setContentView(R.layout.activity_user_settings)
 
         bindViews()
@@ -53,7 +55,6 @@ class UserSettingsActivity : AppCompatActivity() {
     }
 
     private fun populateUserInfo() {
-        // Retrieve user info passed from LoginActivity through the stack
         val name = intent.getStringExtra("USER_NAME") ?: "Sandy"
         val usn  = intent.getStringExtra("USER_USN")  ?: ""
 
@@ -62,7 +63,6 @@ class UserSettingsActivity : AppCompatActivity() {
     }
 
     private fun setupSwitchListeners() {
-        // Helper to refresh the status summary line whenever any switch changes
         val updateStatus = {
             val notif    = if (switchNotifications.isChecked)      "ON"  else "OFF"
             val dark     = if (switchDarkMode.isChecked)           "ON"  else "OFF"
@@ -71,7 +71,6 @@ class UserSettingsActivity : AppCompatActivity() {
                 "Notifications: $notif  •  Dark Mode: $dark  •  Reminders: $reminders"
         }
 
-        // Switch 1: Notifications — setOnCheckedChangeListener
         switchNotifications.setOnCheckedChangeListener { _, isChecked ->
             Toast.makeText(this,
                 "Notifications ${if (isChecked) "enabled" else "disabled"}",
@@ -79,10 +78,8 @@ class UserSettingsActivity : AppCompatActivity() {
             updateStatus()
         }
 
-        // Set initial dark mode switch state
         switchDarkMode.isChecked = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
 
-        // Switch 2: Dark Mode — setOnCheckedChangeListener
         switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -92,7 +89,6 @@ class UserSettingsActivity : AppCompatActivity() {
             updateStatus()
         }
 
-        // Switch 3: Reading Reminders — setOnCheckedChangeListener
         switchReadingReminders.setOnCheckedChangeListener { _, isChecked ->
             Toast.makeText(this,
                 "Reading Reminders ${if (isChecked) "enabled" else "disabled"}",
@@ -102,18 +98,58 @@ class UserSettingsActivity : AppCompatActivity() {
     }
 
     private fun setupButtonListeners() {
-        // Back button
         findViewById<android.view.View>(R.id.btn_settings_back).setOnClickListener {
             finish()
         }
 
-        // Logout button — clears entire back stack, returns to LoginActivity
         btnLogout.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
             startActivity(intent)
-            finish()   // also finish this activity explicitly
+            finish()
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val userName = intent.getStringExtra("USER_NAME") ?: "Sandy"
+        val userUsn  = intent.getStringExtra("USER_USN")  ?: ""
+        return when (item.itemId) {
+            R.id.action_home -> {
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putExtra("USER_NAME", userName)
+                    putExtra("USER_USN", userUsn)
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                }
+                startActivity(intent)
+                true
+            }
+            R.id.action_browse -> {
+                Toast.makeText(this, "Browse Genres on Home screen", Toast.LENGTH_SHORT).show()
+                finish()
+                true
+            }
+            R.id.action_favorites -> {
+                val favs = com.example.exp5notification.data.BookRepository.getAllBooks().filter { it.isFavorite }
+                val favTitles = if (favs.isNotEmpty()) favs.joinToString { it.title } else "No favorites added yet"
+                Toast.makeText(this, "Favorites: $favTitles", Toast.LENGTH_LONG).show()
+                true
+            }
+            R.id.action_settings -> {
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onStart() { super.onStart(); Log.d(TAG, "onStart called") }
+    override fun onResume() { super.onResume(); Log.d(TAG, "onResume called") }
+    override fun onPause() { super.onPause(); Log.d(TAG, "onPause called") }
+    override fun onStop() { super.onStop(); Log.d(TAG, "onStop called") }
+    override fun onDestroy() { super.onDestroy(); Log.d(TAG, "onDestroy called") }
 }
